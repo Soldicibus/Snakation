@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class UniversalSceneChangeController : MonoBehaviour
 {
     private Button button;
-    public int levelIndex;
+    public string sceneName;
     public float fadeDuration = 1.0f;
 
     private void Start()
@@ -38,7 +38,7 @@ public class UniversalSceneChangeController : MonoBehaviour
     private IEnumerator LoadSceneCoroutine()
     {
         yield return StartCoroutine(FadeOutBackgroundAudio());
-        SceneManager.LoadScene(levelIndex);
+        SceneManager.LoadScene(sceneName);
     }
 
     private void LoadScene()
