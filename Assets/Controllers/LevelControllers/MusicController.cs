@@ -22,7 +22,7 @@ public class MusicController : MonoBehaviour
         audioSource.Play();
 
         // Schedule the second clip to start after the first clip ends
-        double startTime = AudioSettings.dspTime + firstClip.length + 0.5;
+        double startTime = AudioSettings.dspTime + firstClip.length + 0.55;
         ScheduleSecondClip(startTime);
     }
 

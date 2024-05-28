@@ -7,7 +7,7 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI scoreTMP;
     public TextMeshProUGUI resolvedTMP;
     public TextMeshProUGUI gameOverTMP;
-    public int score, resolvedExamples;
+    public int score, resolvedExamples, totalExamples;
     void Start()
     {
         score = 0;
@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        scoreTMP.text = $"Очки: {score}";
-        resolvedTMP.text = $"Розв'язано: {resolvedExamples}/10";
+        scoreTMP.text = $"Score: {score}";
+        resolvedTMP.text = $"Solved: {resolvedExamples}/{totalExamples}";
     }
 }
