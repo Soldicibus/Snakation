@@ -26,7 +26,7 @@ public class SnakeController : MonoBehaviour
     public Sprite spriteOnRotation, spriteTail;
     [HideInInspector]
     public Scene scene;
-    private int totalExamples;
+    public int totalExamples;
 
     void Start()
     {
@@ -41,7 +41,7 @@ public class SnakeController : MonoBehaviour
         dBoarderPos = GameObject.Find("WallDOWN").transform.position;
         InvokeRepeating("Movement", 0.1f, stepRate);
         StartCoroutine(LevelText());
-        SpawnFood();    
+        SpawnFood();
     }
 
 
@@ -220,7 +220,7 @@ public class SnakeController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Apple")  
+        if (col.gameObject.tag == "Apple" || col.gameObject.tag == "Pear")  
         {
             controller.score += 100;
             Destroy(col.gameObject); 
@@ -233,7 +233,6 @@ public class SnakeController : MonoBehaviour
             
             Destroy(col.gameObject);
             Time.timeScale = 0;
-            
             if (scene.name.Equals("LevelOne"))
             {
                 example.canvas.gameObject.SetActive(true);
@@ -307,19 +306,19 @@ public class SnakeController : MonoBehaviour
             Restart();
         }
         
-        if (col.gameObject.name == "WallR" && currentAngleZ == 270.0f)
+        if (col.gameObject.name == "WallRIGHT" && currentAngleZ == 270.0f)
         {
             transform.position = new Vector2(lBoarderPos.x, transform.position.y);
         }
-        else if (col.gameObject.name == "WallL" && currentAngleZ == 90.0f)
+        else if (col.gameObject.name == "WallLEFT" && currentAngleZ == 90.0f)
         {
             transform.position = new Vector2(rBoarderPos.x, transform.position.y);
         }
-        else if (col.gameObject.name == "WallU" && currentAngleZ == 0.0f)
+        else if (col.gameObject.name == "WallUP" && currentAngleZ == 0.0f)
         {
             transform.position = new Vector2(transform.position.x, dBoarderPos.y);
         }
-        else if (col.gameObject.name == "WallD" && currentAngleZ == 180.0f)
+        else if (col.gameObject.name == "WallDOWN" && currentAngleZ == 180.0f)
         {
             transform.position = new Vector2(transform.position.x, uBoarderPos.y);
         }
@@ -331,43 +330,43 @@ public class SnakeController : MonoBehaviour
     {
         if(scene.name.Equals("LevelOne"))
         {
-            controller.gameOverTMP.text = "Перший рівень";
+            controller.gameOverTMP.text = "First Level";
         } 
         else if (scene.name.Equals("LevelTwo"))
         {
-            controller.gameOverTMP.text = "Другий рівень";
+            controller.gameOverTMP.text = "Second Level";
         }
         else if (scene.name.Equals("LevelThree"))
         {
-            controller.gameOverTMP.text = "Третій рівень";
+            controller.gameOverTMP.text = "Third Level";
         }
         else if (scene.name.Equals("LevelFour"))
         {
-            controller.gameOverTMP.text = "Четвертий рівень";
+            controller.gameOverTMP.text = "Fourth Level";
         }
         else if (scene.name.Equals("LevelFive"))
         {
-            controller.gameOverTMP.text = "П'ятий рівень";
+            controller.gameOverTMP.text = "Fifth Level";
         }
         else if (scene.name.Equals("LevelSix"))
         {
-            controller.gameOverTMP.text = "Шостий рівень";
+            controller.gameOverTMP.text = "Sixth Level";
         }
         else if (scene.name.Equals("LevelSeven"))
         {
-            controller.gameOverTMP.text = "Сьомий рівень";
+            controller.gameOverTMP.text = "Seventh Level";
         }
         else if (scene.name.Equals("LevelEight"))
         {
-            controller.gameOverTMP.text = "Восьмий рівень";
+            controller.gameOverTMP.text = "Eigth Level";
         }
         else if (scene.name.Equals("LevelNine"))
         {
-            controller.gameOverTMP.text = "Дев'ятий рівень";
+            controller.gameOverTMP.text = "Ninth Level";
         }
         else if (scene.name.Equals("LevelTen"))
         {
-            controller.gameOverTMP.text = "Десятий рівень";
+            controller.gameOverTMP.text = "Tenth level";
         }
 
         yield return new WaitForSeconds(3);
@@ -379,12 +378,12 @@ public class SnakeController : MonoBehaviour
         scoreCanvas.SetActive(false);
         resultCanvas.SetActive(true);
         deathCanvas.SetActive(true);
-        finalScore.text = $"Остаточний результат: {controller.score}";
-        finalExamplesScore.text = $"Правильно вирішенних прикладів: {controller.resolvedExamples}";
+        finalScore.text = $"Your result: {controller.score}";
+        finalExamplesScore.text = $"Correctly answered: {controller.resolvedExamples}";
         if (controller.resolvedExamples == 9)
-            losingReason.text = "Ви неправильно вирішили фінальний приклад";
+            losingReason.text = "You didn't answear the final example correctly";
         else
-            losingReason.text = "Ви з'їли свій хвіст";
+            losingReason.text = "You ate yourself";
         Time.timeScale = 0;
     }
     public void Victory()
@@ -401,12 +400,12 @@ public class SnakeController : MonoBehaviour
             PlayerPrefs.SetInt("unlockedLVLs", 10);
         }
 
-        Debug.Log("Рівень " + PlayerPrefs.GetInt("unlockedLVLs") + " розблокован");
+        Debug.Log("Level " + PlayerPrefs.GetInt("unlockedLVLs") + " unlocked");
         victoryCanvas.SetActive(true);
         resultCanvas.SetActive(true);
         scoreCanvas.SetActive(false);
-        finalScore.text = $"Остаточний результат: {controller.score}";
-        finalExamplesScore.text = $"Правильно вирішенних прикладів: {controller.resolvedExamples}";
+        finalScore.text = $"Your result: {controller.score}";
+        finalExamplesScore.text = $"Correctly answered: {controller.resolvedExamples}";
         
         Time.timeScale = 0;
     }

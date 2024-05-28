@@ -15,12 +15,25 @@ public class ExampleController : MonoBehaviour
     protected bool isFirstBtnCorrect, isSecondBtnCorrect, isThirdBtnCorrect;
     public TextMeshProUGUI firstTMP, secondTMP, thirdTMP, exTMP, stopwatchTMP;
     public SnakeController snake;
+    public int totalExamples;
     int stopwatchTime = 0;
     protected bool isExample;
 
     void Start()
     {
         isThirdBtnCorrect = false; isSecondBtnCorrect = false; isThirdBtnCorrect = false;
+        if (snake == null)
+        {
+            Debug.LogError("SnakeController is not assigned!");
+        }
+        if (controller == null)
+        {
+            Debug.LogError("GameController is not assigned!");
+        }
+        if (snake != null && controller != null)
+        {
+            Debug.Log("Assigned both");
+        }
     }
 
     public void FirstLevel()
@@ -412,30 +425,33 @@ public class ExampleController : MonoBehaviour
                 secondTMP.text = errorOne.ToString();
                 thirdTMP.text = errorTwo.ToString();
                 isFirstBtnCorrect = true;
+                if (isFirstBtnCorrect != true) { isFirstBtnCorrect = true; }
                 break;
             case 2:
                 firstTMP.text = errorOne.ToString();
                 secondTMP.text = correctAnswer.ToString();
                 thirdTMP.text = errorTwo.ToString();
                 isSecondBtnCorrect = true;
+                if (isSecondBtnCorrect != true) { isSecondBtnCorrect = true; }
                 break;
             case 3:
                 firstTMP.text = errorOne.ToString();
                 secondTMP.text = errorTwo.ToString();
                 thirdTMP.text = correctAnswer.ToString();
                 isThirdBtnCorrect = true;
+                if (isThirdBtnCorrect != true) { isThirdBtnCorrect = true; }
                 break;
         }
     }
 
     IEnumerator Stopwatch()
     {
-        stopwatchTMP.text = "Пройшло часу: 0 с";
+        stopwatchTMP.text = "Time: 0 sec.";
         while (isExample)
         {
             yield return new WaitForSecondsRealtime(1);
             stopwatchTime++;
-            stopwatchTMP.text = "Пройшло часу: " + stopwatchTime + " с";
+            stopwatchTMP.text = "Time: " + stopwatchTime + " sec.";
         }
 
         stopwatchTime = 0;
@@ -485,9 +501,9 @@ public class ExampleController : MonoBehaviour
     {
 
         controller.resolvedExamples++;
-        if (controller.resolvedExamples < 5)
+        if (controller.resolvedExamples < totalExamples / 2)
             controller.score += 300;
-        else if (controller.resolvedExamples < 10)
+        else if (controller.resolvedExamples < totalExamples)
             controller.score += 600;
 
 
@@ -525,7 +541,7 @@ public class ExampleController : MonoBehaviour
 
         isExample = false;
         StopCoroutine(Stopwatch());
-        if (controller.resolvedExamples == 10)
+        if (controller.resolvedExamples == totalExamples)
             snake.Victory();
     }
 
@@ -537,10 +553,9 @@ public class ExampleController : MonoBehaviour
         Time.timeScale = 1;
         isExample = false;
         StopCoroutine(Stopwatch());
-        if (controller.resolvedExamples == 9)
+        if (controller.resolvedExamples == totalExamples - 1)
         {
             snake.GetComponent<SnakeController>().Restart();
-        }
-            
+        }    
     }
 }

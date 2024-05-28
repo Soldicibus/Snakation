@@ -11,7 +11,6 @@ public class MusicController : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
 
-        // Play the first clip immediately
         PlayFirstClip();
     }
 
@@ -21,14 +20,12 @@ public class MusicController : MonoBehaviour
         audioSource.loop = false;
         audioSource.Play();
 
-        // Schedule the second clip to start after the first clip ends
         double startTime = AudioSettings.dspTime + firstClip.length + 0.55;
         ScheduleSecondClip(startTime);
     }
 
     void ScheduleSecondClip(double startTime)
     {
-        // Create a new AudioSource to handle the scheduling of the second clip
         AudioSource secondAudioSource = gameObject.AddComponent<AudioSource>();
         secondAudioSource.clip = secondClip;
         secondAudioSource.loop = true;
@@ -37,6 +34,5 @@ public class MusicController : MonoBehaviour
 
     void Update()
     {
-        // No update logic needed for this task
     }
 }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8814563120790615197
+--- !u!1 &527661648878600890
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,45 +8,51 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4532670348872572071}
-  - component: {fileID: 3042282024876006884}
+  - component: {fileID: 9009966598368072570}
+  - component: {fileID: 8581098717587273691}
   m_Layer: 0
-  m_Name: EventController
+  m_Name: ExampleController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4532670348872572071
+--- !u!4 &9009966598368072570
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8814563120790615197}
+  m_GameObject: {fileID: 527661648878600890}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1253.9031, y: 856.53076, z: -8.696546}
+  m_LocalPosition: {x: 1507.6211, y: 685.9599, z: -6.472355}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3042282024876006884
+--- !u!114 &8581098717587273691
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8814563120790615197}
+  m_GameObject: {fileID: 527661648878600890}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 635523240c7de474694d201cf3e97b10, type: 3}
+  m_Script: {fileID: 11500000, guid: 3223c9880c70de44fa9f92eee55e5812, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreTMP: {fileID: 0}
-  resolvedTMP: {fileID: 0}
-  gameOverTMP: {fileID: 0}
-  score: 0
-  resolvedExamples: 0
+  controller: {fileID: 0}
+  firstBtn: {fileID: 0}
+  secondBtn: {fileID: 0}
+  thirdBtn: {fileID: 0}
+  canvas: {fileID: 0}
+  firstTMP: {fileID: 0}
+  secondTMP: {fileID: 0}
+  thirdTMP: {fileID: 0}
+  exTMP: {fileID: 0}
+  stopwatchTMP: {fileID: 0}
+  snake: {fileID: 0}
   totalExamples: 0
