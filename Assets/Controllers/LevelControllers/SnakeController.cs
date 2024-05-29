@@ -10,13 +10,13 @@ public class SnakeController : MonoBehaviour
     private Vector2 tapPos, swipeDelta;
     public bool IsSwiping;
      [SerializeField]
-    private GameObject foodPref, secondfoodPref, tailPrefab, examplePrefab, finalExamplePrefab,scoreCanvas,deathCanvas,victoryCanvas,resultCanvas;
+    private GameObject foodPref, secondfoodPref, bodyPrefab, examplePrefab, finalExamplePrefab,scoreCanvas,deathCanvas,victoryCanvas,resultCanvas;
     [SerializeField]
     private TextMeshProUGUI finalScore, finalExamplesScore, losingReason;
     private GameObject food;
     private float stepRate, currentAngleZ;
     private Vector2 move;
-    List<Transform> tail = new List<Transform>();
+    List<Transform> body = new List<Transform>();
     [HideInInspector]
     public bool isFoodEaten, canTurn;
     private float turnTime;
@@ -183,38 +183,36 @@ public class SnakeController : MonoBehaviour
     public void Movement()
     {
         
-        Vector2 v = transform.position;
-
+        Vector2 v = transform.position / 2;
+        
 
         transform.Translate(move);
         if (isFoodEaten) 
         {
-            GameObject g = Instantiate(tailPrefab, v, Quaternion.identity);
+            GameObject g = Instantiate(bodyPrefab, v, Quaternion.identity);
             g.GetComponent<Renderer>().material.color = this.GetComponent<Renderer>().material.color;
             g.transform.localEulerAngles = new Vector3(0.0f, 0.0f, currentAngleZ);
-            tail.Insert(0, g.transform);
+            body.Insert(0, g.transform);
             isFoodEaten = false;
         }
-        else if (tail.Count > 0)
+        else if (body.Count > 0)
         {
-            tail.Last().position = v;
-            tail.Last().transform.eulerAngles = new Vector3(0.0f, 0.0f, currentAngleZ);
-            tail.Insert(0, tail.Last());
-            tail.RemoveAt(tail.Count - 1);
+            body.Last().position = v;
+            body.Last().transform.eulerAngles = new Vector3(0.0f, 0.0f, currentAngleZ);
+            body.Insert(0, body.Last());
+            body.RemoveAt(body.Count - 1);
 
-            if(tail.Count > 1)
+            if(body.Count > 1)
             {
-                tail.Last().GetComponent<SpriteRenderer>().sprite = spriteTail;
-                tail.Last().GetComponent<SpriteRenderer>().flipX = false;
-                if (tail[0].transform.eulerAngles.z != tail[1].transform.eulerAngles.z)
-                    tail[0].GetComponent<SpriteRenderer>().sprite = spriteOnRotation;
+                body.Last().GetComponent<SpriteRenderer>().sprite = spriteTail;
+                body.Last().GetComponent<SpriteRenderer>().flipX = false;
+                if (body[0].transform.eulerAngles.z != body[1].transform.eulerAngles.z)
+                    body[0].GetComponent<SpriteRenderer>().sprite = spriteOnRotation;
 
                 if ((isAxisX && isXpositive && isYpositive) || (!isAxisX && !isXpositive && isYpositive) || (!isAxisX && isXpositive && !isYpositive) || (isAxisX && !isXpositive && !isYpositive))
-                    tail[0].GetComponent<SpriteRenderer>().flipX = true;
+                    body[0].GetComponent<SpriteRenderer>().flipX = true;
 
             }
-
-
         } 
     }
 
@@ -330,7 +328,7 @@ public class SnakeController : MonoBehaviour
     {
         if(scene.name.Equals("LevelOne"))
         {
-            controller.gameOverTMP.text = "First Level";
+            controller.gameOverTMP.text = "First Level (Tutorial)";
         } 
         else if (scene.name.Equals("LevelTwo"))
         {
@@ -374,7 +372,6 @@ public class SnakeController : MonoBehaviour
     }
     public void Restart()
     {
-        
         scoreCanvas.SetActive(false);
         resultCanvas.SetActive(true);
         deathCanvas.SetActive(true);
@@ -390,14 +387,9 @@ public class SnakeController : MonoBehaviour
     {
         int currentLevel = SceneManager.GetActiveScene().buildIndex;
 
-        if (currentLevel >= PlayerPrefs.GetInt("unlockedLVLs"))
+        if (currentLevel >= PlayerPrefs.GetInt("unlockedLVLs") && currentLevel != 10)
         {
             PlayerPrefs.SetInt("unlockedLVLs", currentLevel + 1);
-        }
-
-        if(PlayerPrefs.GetInt("unlockedLVLs") == 11)
-        {
-            PlayerPrefs.SetInt("unlockedLVLs", 10);
         }
 
         Debug.Log("Level " + PlayerPrefs.GetInt("unlockedLVLs") + " unlocked");

@@ -18,31 +18,64 @@ public class ExampleController : MonoBehaviour
     public int totalExamples;
     int stopwatchTime = 0;
     protected bool isExample;
+    private SnakeController snakeBackup;
+    private GameController controllerBackup;
+    public GameController Controller
+    {
+        get { return controller; }
+        private set { controller = value; }
+    }
+
+    public SnakeController Snake
+    {
+        get { return snake; }
+        private set { snake = value; }
+    }
 
     void Start()
     {
         isThirdBtnCorrect = false; isSecondBtnCorrect = false; isThirdBtnCorrect = false;
-        if (snake == null)
+        Snake = snake;
+        Controller = controller;
+
+        CheckAndBackupReferences();
+        firstBtn.onClick.AddListener(FirstBtnState);
+        secondBtn.onClick.AddListener(SecondBtnState);
+        thirdBtn.onClick.AddListener(ThirdBtnState);
+    }
+    void CheckAndBackupReferences()
+    {
+        if (Snake != null && Controller != null)
         {
-            Debug.LogError("SnakeController is not assigned!");
+            Debug.Log("Assigned both SnakeController and GameController");
+            snakeBackup = Snake;
+            controllerBackup = Controller;
         }
-        if (controller == null)
+        else
         {
-            Debug.LogError("GameController is not assigned!");
+            if (Snake == null) Debug.LogError("SnakeController is not assigned!");
+            if (Controller == null) Debug.LogError("GameController is not assigned!");
         }
-        if (snake != null && controller != null)
-        {
-            Debug.Log("Assigned both");
-        }
+        LogReferences("Starting value:");
+    }
+    void CheckAndReassignReferences()
+    {
+        if (snake == null) snake = snakeBackup;
+        if (controller == null) controller = controllerBackup;
+    }
+
+    void LogReferences(string context)
+    {
+        Debug.Log($"{context} - snake: {(snake != null ? snake.name : "null")}, controller: {(controller != null ? controller.name : "null")}, snakeBackup: {(snakeBackup != null ? snakeBackup.name : "null")}, controllerBackup: {(controllerBackup != null ? controllerBackup.name : "null")}");
     }
 
     public void FirstLevel()
     {
-        if(controller.resolvedExamples < 9)
+        if(controller.resolvedExamples < 4)
         {
             AddFirstLVL();
         }
-        else if(controller.resolvedExamples == 9)
+        else if(controller.resolvedExamples == 4)
         {
             AddFirstFinalEX();
         }
@@ -413,9 +446,8 @@ public class ExampleController : MonoBehaviour
         exTMP.text = text;
 
         isExample = true;
-        StartCoroutine(Stopwatch());
-        
 
+        StartCoroutine(Stopwatch());
 
         int correctPos = Math.randomGeneration(1, 4);
         switch (correctPos)
@@ -461,7 +493,9 @@ public class ExampleController : MonoBehaviour
 
     public void FirstBtnState()
     {
-
+        Debug.Log("FirstBtnState called");
+        //CheckAndReassignReferences();
+        //LogReferences("Before FirstBtnState Logic");
         if (isFirstBtnCorrect)
         {
             CorrectAnswer();
@@ -471,10 +505,14 @@ public class ExampleController : MonoBehaviour
         {
             WrongAnswer();
         }
+        //LogReferences("After FirstBtnState Logic");
     }
 
     public void SecondBtnState()
     {
+        Debug.Log("SecondBtnState called");
+        //CheckAndReassignReferences();
+        //LogReferences("Before SecondBtnState Logic");
         if (isSecondBtnCorrect)
         {
             CorrectAnswer();
@@ -483,10 +521,14 @@ public class ExampleController : MonoBehaviour
         {
             WrongAnswer();
         }
+        //LogReferences("After SecondBtnState Logic");
     }
 
     public void ThirdBtnState() 
     {
+        Debug.Log("ThirdBtnState called");
+        //CheckAndReassignReferences();
+        //LogReferences("Before ThirdBtnState Logic");
         if (isThirdBtnCorrect)
         {
             CorrectAnswer();
@@ -495,11 +537,13 @@ public class ExampleController : MonoBehaviour
         {
             WrongAnswer();
         }
+        //LogReferences("After ThirdBtnState Logic");
     }
 
     void CorrectAnswer()
     {
-
+        Debug.Log("CorrectAnswer called");
+        //LogReferences("Before CorrectAnswer Logic");
         controller.resolvedExamples++;
         if (controller.resolvedExamples < totalExamples / 2)
             controller.score += 300;
@@ -516,8 +560,6 @@ public class ExampleController : MonoBehaviour
         StopCoroutine(Stopwatch());
         canvas.gameObject.SetActive(false);
         Time.timeScale = 1;
-
-
 
         if (stopwatchTime <= 2)
         {
@@ -539,14 +581,27 @@ public class ExampleController : MonoBehaviour
             }
         }
 
-        isExample = false;
         StopCoroutine(Stopwatch());
+        isExample = false;
         if (controller.resolvedExamples == totalExamples)
             snake.Victory();
+        //LogReferences("After CorrectAnswer Logic");
     }
 
     void WrongAnswer()
     {
+        Debug.Log("WrongAnswer called");
+        LogReferences("Before WrongAnswer Logic");
+        if (snake == null)
+        {
+            Debug.LogError("SnakeController is lost! Trying to recover...");
+            snake = snakeBackup;
+        }
+        if (controller == null)
+        {
+            Debug.LogError("GameController is lost! Trying to recover...");
+            controller = controllerBackup;
+        }
         snake.SpawnFood();
         controller.score -= 200;
         canvas.gameObject.SetActive(false);
@@ -556,6 +611,7 @@ public class ExampleController : MonoBehaviour
         if (controller.resolvedExamples == totalExamples - 1)
         {
             snake.GetComponent<SnakeController>().Restart();
-        }    
+        }
+        LogReferences("After WrongAnswer Logic");
     }
 }

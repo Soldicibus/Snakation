@@ -130,7 +130,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1, y: 0.85}
+  m_Size: {x: 1, y: 0.75}
   m_EdgeRadius: 0
 --- !u!50 &1408503823515707884
 Rigidbody2D:
@@ -174,7 +174,7 @@ MonoBehaviour:
   IsSwiping: 0
   foodPref: {fileID: 3248850418382472918, guid: 0378c392ec58273439db1ca03aec8cf5, type: 3}
   secondfoodPref: {fileID: 245195462511486132, guid: 04572abdb0b8c594db558936b74f562b, type: 3}
-  tailPrefab: {fileID: 2459332525564709483, guid: 3859ac77bca937149a101382b571a497, type: 3}
+  bodyPrefab: {fileID: 0}
   examplePrefab: {fileID: 7681173544285751355, guid: 4cceb99432ef72d4ab906eef1ad96dcf, type: 3}
   finalExamplePrefab: {fileID: 2183999854605977275, guid: b368bf4c9d411eb46885eaedf530359a, type: 3}
   scoreCanvas: {fileID: 6014002436480194301, guid: a469658903e8dfb438571d79c75dca16, type: 3}
