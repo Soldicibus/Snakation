@@ -92,7 +92,7 @@ public class SnakeController : MonoBehaviour
                         isXpositive = true;
                         isAxisX = true;
                     }
-                        
+
                 }
                 if (swipeDelta.x < 0)
                 {
@@ -113,7 +113,7 @@ public class SnakeController : MonoBehaviour
                     if (currentAngleZ != 180f)
                     {
                         currentAngleZ = 0f;
-                        isYpositive =  true;
+                        isYpositive = true;
                         isAxisX = false;
                     }
                 }
@@ -125,7 +125,7 @@ public class SnakeController : MonoBehaviour
                         isYpositive = false;
                         isAxisX = false;
                     }
-                        
+
                 }
             }
         }
@@ -139,7 +139,7 @@ public class SnakeController : MonoBehaviour
 
     void SnakeBehaviour(float prevAngleZ)
     {
-       SwipeDetection();
+        SwipeDetection();
         transform.localEulerAngles = new Vector3(0.0f, 0.0f, currentAngleZ);
         if (Time.time > turnTime + 0.2f)
         {
@@ -157,7 +157,7 @@ public class SnakeController : MonoBehaviour
         float x = (int)Random.Range(lBoarderPos.x + 2f, rBoarderPos.x - 2f);
         float y = (int)Random.Range(dBoarderPos.y + 2f, uBoarderPos.y - 2f);
 
-        if (controller.resolvedExamples < totalExamples - 1) 
+        if (controller.resolvedExamples < totalExamples - 1)
         {
             int foodType = Random.Range(1, 4);
             if (foodType == 1)
@@ -173,11 +173,11 @@ public class SnakeController : MonoBehaviour
                 food = Instantiate(examplePrefab, new Vector3(x, y, 5f), Quaternion.identity);
             }
         }
-        else if(controller.resolvedExamples == totalExamples - 1) 
+        else if (controller.resolvedExamples == totalExamples - 1)
         {
             food = Instantiate(finalExamplePrefab, new Vector3(x, y, 5f), Quaternion.identity);
         }
-        
+
     }
 
     public void Movement()
@@ -185,14 +185,14 @@ public class SnakeController : MonoBehaviour
         Vector2 v = transform.position;
         if (IsSpedUp == false && IsCreatedVase == false) randomval = (int)Random.Range(1, 36);
         else randomval = 0;
-        if (randomval == 10) 
+        if (randomval == 10)
         {
             float x = (int)Random.Range(lBoarderPos.x + 2f, rBoarderPos.x - 2f);
             float y = (int)Random.Range(dBoarderPos.y + 2f, uBoarderPos.y - 2f);
             vase = Instantiate(vasePref, new Vector3(x, y, 5f), Quaternion.identity);
             IsCreatedVase = true;
         }
-        if (IsSpedUp) transform.Translate(move * 2);
+        if (IsSpedUp) transform.Translate(move * 1.5f);
         else transform.Translate(move);
         if (isFoodEaten)
         {
@@ -225,6 +225,14 @@ public class SnakeController : MonoBehaviour
                 body.Last().GetComponent<SpriteRenderer>().sprite = spriteBody;
                 body.Last().GetComponent<SpriteRenderer>().flipX = false;
             }
+            for (int i = 0; i < body.Count - 1; i++)
+            {
+                if (body[i].transform.eulerAngles.z != body[i + 1].transform.eulerAngles.z)
+                    body[i].GetComponent<SpriteRenderer>().sprite = spriteOnRotation;
+
+                if ((isAxisX && isXpositive && isYpositive) || (!isAxisX && !isXpositive && isYpositive) || (!isAxisX && isXpositive && !isYpositive) || (isAxisX && !isXpositive && !isYpositive))
+                    body[i].GetComponent<SpriteRenderer>().flipX = true;
+            }
         }
     }
 
@@ -246,27 +254,26 @@ public class SnakeController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Apple" || col.gameObject.tag == "Pear")  
+        if (col.gameObject.tag == "Apple" || col.gameObject.tag == "Pear")
         {
             controller.score += 100;
-            Destroy(col.gameObject); 
+            Destroy(col.gameObject);
             isFoodEaten = true;
-            SpawnFood(); 
+            SpawnFood();
         }
 
         if (col.gameObject.tag == "Vase")
         {
             controller.score += 10;
-            col.gameObject.GetComponent<SpriteRenderer>().sprite = spriteBreakVase;
+            Destroy(col.gameObject);
             IsCreatedVase = false;
             IsSpedUp = true;
             StartCoroutine(SpeedUp());
-            Destroy(col.gameObject);
         }
 
         if (col.gameObject.tag == "Example")
         {
-            
+
             Destroy(col.gameObject);
             Time.timeScale = 0;
             if (scene.name.Equals("LevelOne"))
@@ -361,7 +368,7 @@ public class SnakeController : MonoBehaviour
         {
             Restart();
         }
-        
+
         if (col.gameObject.name == "WallRIGHT" && currentAngleZ == 270.0f)
         {
             transform.position = new Vector2(lBoarderPos.x, transform.position.y);
@@ -384,10 +391,10 @@ public class SnakeController : MonoBehaviour
 
     IEnumerator LevelText()
     {
-        if(scene.name.Equals("LevelOne"))
+        if (scene.name.Equals("LevelOne"))
         {
             controller.gameOverTMP.text = "First Level (Tutorial)";
-        } 
+        }
         else if (scene.name.Equals("LevelTwo"))
         {
             controller.gameOverTMP.text = "Second Level";
@@ -472,7 +479,7 @@ public class SnakeController : MonoBehaviour
         scoreCanvas.SetActive(false);
         finalScore.text = $"Your result: {controller.score}";
         finalExamplesScore.text = $"Correctly answered: {controller.resolvedExamples}";
-        
+
         Time.timeScale = 0;
     }
 }
