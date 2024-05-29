@@ -8,12 +8,12 @@ using TMPro;
 public class SnakeController : MonoBehaviour
 {
     private Vector2 tapPos, swipeDelta;
-    public bool IsSwiping;
-     [SerializeField]
-    private GameObject foodPref, secondfoodPref, bodyPrefab, examplePrefab, finalExamplePrefab,scoreCanvas,deathCanvas,victoryCanvas,resultCanvas;
+    public bool IsSwiping, IsSpedUp, IsCreatedVase;
+    [SerializeField]
+    private GameObject foodPref, vasePref, secondfoodPref, bodyPrefab, examplePrefab, finalExamplePrefab, scoreCanvas, deathCanvas, victoryCanvas, resultCanvas;
     [SerializeField]
     private TextMeshProUGUI finalScore, finalExamplesScore, losingReason;
-    private GameObject food;
+    private GameObject food, vase;
     private float stepRate, currentAngleZ;
     private Vector2 move;
     List<Transform> body = new List<Transform>();
@@ -23,10 +23,11 @@ public class SnakeController : MonoBehaviour
     private Vector2 lBoarderPos, rBoarderPos, uBoarderPos, dBoarderPos;
     public GameController controller;
     public ExampleController example;
-    public Sprite spriteOnRotation, spriteTail;
+    public Sprite spriteOnRotation, spriteBody, spriteBodyTail, spriteBreakVase;
     [HideInInspector]
     public Scene scene;
     public int totalExamples;
+    private int randomval;
 
     void Start()
     {
@@ -35,6 +36,8 @@ public class SnakeController : MonoBehaviour
         currentAngleZ = 0.0f;
         stepRate = 0.2f;
         isFoodEaten = false;
+        IsSpedUp = false;
+        IsCreatedVase = false;
         lBoarderPos = GameObject.Find("WallLEFT").transform.position;
         rBoarderPos = GameObject.Find("WallRIGHT").transform.position;
         uBoarderPos = GameObject.Find("WallUP").transform.position;
@@ -134,8 +137,6 @@ public class SnakeController : MonoBehaviour
         swipeDelta = Vector2.zero;
     }
 
-
-
     void SnakeBehaviour(float prevAngleZ)
     {
        SwipeDetection();
@@ -167,7 +168,7 @@ public class SnakeController : MonoBehaviour
             {
                 food = Instantiate(secondfoodPref, new Vector3(x, y, 5f), Quaternion.identity);
             }
-            else
+            if (foodType == 3)
             {
                 food = Instantiate(examplePrefab, new Vector3(x, y, 5f), Quaternion.identity);
             }
@@ -177,17 +178,23 @@ public class SnakeController : MonoBehaviour
             food = Instantiate(finalExamplePrefab, new Vector3(x, y, 5f), Quaternion.identity);
         }
         
-        
     }
 
     public void Movement()
     {
-        
-        Vector2 v = transform.position / 2;
-        
-
-        transform.Translate(move);
-        if (isFoodEaten) 
+        Vector2 v = transform.position;
+        if (IsSpedUp == false && IsCreatedVase == false) randomval = (int)Random.Range(1, 36);
+        else randomval = 0;
+        if (randomval == 10) 
+        {
+            float x = (int)Random.Range(lBoarderPos.x + 2f, rBoarderPos.x - 2f);
+            float y = (int)Random.Range(dBoarderPos.y + 2f, uBoarderPos.y - 2f);
+            vase = Instantiate(vasePref, new Vector3(x, y, 5f), Quaternion.identity);
+            IsCreatedVase = true;
+        }
+        if (IsSpedUp) transform.Translate(move * 2);
+        else transform.Translate(move);
+        if (isFoodEaten)
         {
             GameObject g = Instantiate(bodyPrefab, v, Quaternion.identity);
             g.GetComponent<Renderer>().material.color = this.GetComponent<Renderer>().material.color;
@@ -202,18 +209,39 @@ public class SnakeController : MonoBehaviour
             body.Insert(0, body.Last());
             body.RemoveAt(body.Count - 1);
 
-            if(body.Count > 1)
+            if (body.Count > 1)
             {
-                body.Last().GetComponent<SpriteRenderer>().sprite = spriteTail;
+                for (int i = 0; i < body.Count - 1; i++)
+                {
+                    body[i].GetComponent<SpriteRenderer>().sprite = spriteBody;
+                    body[i].GetComponent<SpriteRenderer>().flipX = false;
+                }
+
+                body.Last().GetComponent<SpriteRenderer>().sprite = spriteBodyTail;
                 body.Last().GetComponent<SpriteRenderer>().flipX = false;
-                if (body[0].transform.eulerAngles.z != body[1].transform.eulerAngles.z)
-                    body[0].GetComponent<SpriteRenderer>().sprite = spriteOnRotation;
-
-                if ((isAxisX && isXpositive && isYpositive) || (!isAxisX && !isXpositive && isYpositive) || (!isAxisX && isXpositive && !isYpositive) || (isAxisX && !isXpositive && !isYpositive))
-                    body[0].GetComponent<SpriteRenderer>().flipX = true;
-
             }
-        } 
+            else
+            {
+                body.Last().GetComponent<SpriteRenderer>().sprite = spriteBody;
+                body.Last().GetComponent<SpriteRenderer>().flipX = false;
+            }
+        }
+    }
+
+    public IEnumerator SpeedUp()
+    {
+        int stopwatchTime = 10;
+        controller.speedTMP.text = "Speed: " + stopwatchTime + " sec.";
+        while (stopwatchTime > 0)
+        {
+            yield return new WaitForSecondsRealtime(1);
+            stopwatchTime--;
+            controller.speedTMP.text = "Speed: " + stopwatchTime + " sec.";
+        }
+
+        controller.speedTMP.text = "";
+
+        IsSpedUp = false;
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -224,6 +252,16 @@ public class SnakeController : MonoBehaviour
             Destroy(col.gameObject); 
             isFoodEaten = true;
             SpawnFood(); 
+        }
+
+        if (col.gameObject.tag == "Vase")
+        {
+            controller.score += 10;
+            col.gameObject.GetComponent<SpriteRenderer>().sprite = spriteBreakVase;
+            IsCreatedVase = false;
+            IsSpedUp = true;
+            StartCoroutine(SpeedUp());
+            Destroy(col.gameObject);
         }
 
         if (col.gameObject.tag == "Example")
@@ -289,6 +327,26 @@ public class SnakeController : MonoBehaviour
             {
                 example.canvas.gameObject.SetActive(true);
                 example.TenthLevel();
+            }
+            if (scene.name.Equals("LevelEleven"))
+            {
+                example.canvas.gameObject.SetActive(true);
+                //example.TenthLevel();
+            }
+            if (scene.name.Equals("LevelTwelve"))
+            {
+                example.canvas.gameObject.SetActive(true);
+                //example.TenthLevel();
+            }
+            if (scene.name.Equals("LevelThirteen"))
+            {
+                example.canvas.gameObject.SetActive(true);
+                //example.TenthLevel();
+            }
+            else // Levels 14 and 15
+            {
+                example.canvas.gameObject.SetActive(true);
+                //example.SpecialLevels();
             }
         }
 
@@ -365,6 +423,22 @@ public class SnakeController : MonoBehaviour
         else if (scene.name.Equals("LevelTen"))
         {
             controller.gameOverTMP.text = "Tenth level";
+        }
+        else if (scene.name.Equals("LevelEleven"))
+        {
+            controller.gameOverTMP.text = "Eleventh level (new area)";
+        }
+        else if (scene.name.Equals("LevelTwelve"))
+        {
+            controller.gameOverTMP.text = "Twelfth level";
+        }
+        else if (scene.name.Equals("LevelThirteen"))
+        {
+            controller.gameOverTMP.text = "Thirteenth level";
+        }
+        else
+        {
+            controller.gameOverTMP.text = "Special Levels";
         }
 
         yield return new WaitForSeconds(3);

@@ -10,6 +10,7 @@ TagManager:
   - Apple
   - Pear
   - End
+  - Vase
   layers:
   - Default
   - TransparentFX

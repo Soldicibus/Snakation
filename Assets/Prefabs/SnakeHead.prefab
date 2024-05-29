@@ -172,9 +172,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsSwiping: 0
+  IsSpedUp: 0
+  IsCreatedVase: 0
   foodPref: {fileID: 3248850418382472918, guid: 0378c392ec58273439db1ca03aec8cf5, type: 3}
+  vasePref: {fileID: 2561825699624043339, guid: 0fd36bf67057dd9459710ea434f37868, type: 3}
   secondfoodPref: {fileID: 245195462511486132, guid: 04572abdb0b8c594db558936b74f562b, type: 3}
-  bodyPrefab: {fileID: 0}
+  bodyPrefab: {fileID: 2459332525564709483, guid: 3859ac77bca937149a101382b571a497, type: 3}
   examplePrefab: {fileID: 7681173544285751355, guid: 4cceb99432ef72d4ab906eef1ad96dcf, type: 3}
   finalExamplePrefab: {fileID: 2183999854605977275, guid: b368bf4c9d411eb46885eaedf530359a, type: 3}
   scoreCanvas: {fileID: 6014002436480194301, guid: a469658903e8dfb438571d79c75dca16, type: 3}
@@ -189,7 +192,9 @@ MonoBehaviour:
   controller: {fileID: 0}
   example: {fileID: 0}
   spriteOnRotation: {fileID: 21300000, guid: df3086ee661b9934eac4465d50a84496, type: 3}
-  spriteTail: {fileID: 21300000, guid: 9e2307c66cdcabf4596f481429a1c363, type: 3}
+  spriteBody: {fileID: 21300000, guid: 9e2307c66cdcabf4596f481429a1c363, type: 3}
+  spriteBodyTail: {fileID: 21300000, guid: 954dbc983bc68014a9b9ceab5e5822ec, type: 3}
+  spriteBreakVase: {fileID: 21300000, guid: 9f59575f0eba70340bc17700211bb337, type: 3}
   scene:
     m_Handle: 0
   totalExamples: 4

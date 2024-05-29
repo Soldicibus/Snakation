@@ -1,10 +1,11 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
 
-    public TextMeshProUGUI scoreTMP;
+    public TextMeshProUGUI scoreTMP, speedTMP;
     public TextMeshProUGUI resolvedTMP;
     public TextMeshProUGUI gameOverTMP;
     public int score, resolvedExamples, totalExamples;

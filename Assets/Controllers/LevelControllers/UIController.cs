@@ -19,7 +19,8 @@ public class UIController : MonoBehaviour
     }
     public void BackToLobby()
     {
-        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+        SceneManager.LoadScene("Menu");
+        Time.timeScale = 1.0f;
     } 
 
     public void RestartLevel()

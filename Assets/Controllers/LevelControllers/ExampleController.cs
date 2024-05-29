@@ -487,8 +487,6 @@ public class ExampleController : MonoBehaviour
         }
 
         stopwatchTime = 0;
-        
-        
     }
 
     public void FirstBtnState()
