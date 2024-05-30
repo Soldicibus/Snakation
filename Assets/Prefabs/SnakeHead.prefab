@@ -198,3 +198,6 @@ MonoBehaviour:
   scene:
     m_Handle: 0
   totalExamples: 4
+  foodEatenSound: {fileID: 8300000, guid: 5913fa294106d2045a597b74bb712b35, type: 3}
+  vaseDestroyedSound: {fileID: 8300000, guid: 4180e74ea256006489a29708a2b024d9, type: 3}
+  snakeCrashSound: {fileID: 8300000, guid: a842717295071b441a54a2127cd8b545, type: 3}

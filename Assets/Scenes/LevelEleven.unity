@@ -822,7 +822,7 @@ PrefabInstance:
       objectReference: {fileID: 262633300}
     - target: {fileID: 8581098717587273691, guid: 9d7c2479946ec1749893d546532f3473, type: 3}
       propertyPath: totalExamples
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8581098717587273691, guid: 9d7c2479946ec1749893d546532f3473, type: 3}
       propertyPath: controllerBackup
@@ -1534,6 +1534,10 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 0.95
       objectReference: {fileID: 0}
+    - target: {fileID: 4575488611776202761, guid: 6c5490b45aa08e0479208eadf49f3067, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7a39e0a55641a26438e1bb77f7cb78bd, type: 3}
     - target: {fileID: 7678113629748225930, guid: 6c5490b45aa08e0479208eadf49f3067, type: 3}
       propertyPath: tail
       value: 
@@ -1572,7 +1576,7 @@ PrefabInstance:
       objectReference: {fileID: 2005617380}
     - target: {fileID: 7678113629748225930, guid: 6c5490b45aa08e0479208eadf49f3067, type: 3}
       propertyPath: totalExamples
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7678113629748225930, guid: 6c5490b45aa08e0479208eadf49f3067, type: 3}
       propertyPath: victoryCanvas
@@ -1617,7 +1621,7 @@ PrefabInstance:
       objectReference: {fileID: 406192451}
     - target: {fileID: 3042282024876006884, guid: 0c0e458377dffd94393f7795274c6482, type: 3}
       propertyPath: totalExamples
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4532670348872572071, guid: 0c0e458377dffd94393f7795274c6482, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1727,6 +1731,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8858004883287553440, guid: 2cc5af5da41aa444ca905439670529d9, type: 3}
+      propertyPath: firstClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0cd8ea2089caef84ab5c5e3e0703a7ad, type: 3}
+    - target: {fileID: 8858004883287553440, guid: 2cc5af5da41aa444ca905439670529d9, type: 3}
+      propertyPath: secondClip
+      value: 
+      objectReference: {fileID: 8300000, guid: c1bbd60860882ef40bc3a068438ba27b, type: 3}
     - target: {fileID: 8858004883287553440, guid: 2cc5af5da41aa444ca905439670529d9, type: 3}
       propertyPath: canvasVictory
       value: 

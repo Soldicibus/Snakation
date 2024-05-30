@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-public class BtnPressedController : MonoBehaviour
+public class BtnPressedInLevelController : MonoBehaviour
 {
     public AudioClip buttonSound;
 
@@ -10,8 +10,11 @@ public class BtnPressedController : MonoBehaviour
 
     private void Awake()
     {
-        Button button = GetComponent<Button>();
-        button.onClick.AddListener(PlayButtonSound); // Робимо прив'язку до дії PlayButtonSound
+        Button[] buttons = GetComponentsInChildren<Button>();
+        foreach (Button button in buttons)
+        {
+            button.onClick.AddListener(PlayButtonSound);
+        }
     }
 
     private void Start()
@@ -22,6 +25,6 @@ public class BtnPressedController : MonoBehaviour
 
     public void PlayButtonSound()
     {
-        audioSource.PlayOneShot(buttonSound); // Граємо звук
+        audioSource.PlayOneShot(buttonSound);
     }
 }

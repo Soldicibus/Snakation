@@ -71,11 +71,11 @@ public class ExampleController : MonoBehaviour
 
     public void FirstLevel()
     {
-        if(controller.resolvedExamples < 4)
+        if(controller.resolvedExamples < 3)
         {
             AddFirstLVL();
         }
-        else if(controller.resolvedExamples == 4)
+        else if(controller.resolvedExamples == 3)
         {
             AddFirstFinalEX();
         }
@@ -180,13 +180,70 @@ public class ExampleController : MonoBehaviour
 
     public void TenthLevel()
     {
-        if (controller.resolvedExamples < 9)
+        if (controller.resolvedExamples < 11)
         {
             DivAddTenthLevel();
         }
-        else if (controller.resolvedExamples == 9)
+        else if (controller.resolvedExamples == 11)
         {
             DivMulTenthEX();
+        }
+    }
+
+    public void EleventhLevel()
+    {
+        if (controller.resolvedExamples < 3)
+        {
+            MixedOperationsLevelEleventh();
+        }
+        else if (controller.resolvedExamples == 3)
+        {
+            MixedOperationsLevelEleventhEX();
+        }
+    }
+
+    public void TwelfthLevel()
+    {
+        if (controller.resolvedExamples < 9)
+        {
+            MixedOperationsLevelTwelfth();
+        }
+        else if (controller.resolvedExamples == 9)
+        {
+            MixedOperationsLevelTwelfthEX();
+        }
+    }
+    public void ThirteenthLevel()
+    {
+        if (controller.resolvedExamples < 9)
+        {
+            MulSubLevelThirteenth();
+        }
+        else if (controller.resolvedExamples == 9)
+        {
+            MulSubLevelThirteenthEX();
+        }
+    }
+    public void SpecialLevel14()
+    {
+        if (controller.resolvedExamples < 3)
+        {
+            FinalLevelWithExponents();
+        }
+        else if (controller.resolvedExamples == 3)
+        {
+            FinalLevelWithExponentsEX();
+        }
+    }
+    public void SpecialLevel15()
+    {
+        if (controller.resolvedExamples < 14)
+        {
+            FinalLevelWithExponents();
+        }
+        else if (controller.resolvedExamples == 14)
+        {
+            FinalLevelWithExponentsEX();
         }
     }
     void AddFirstLVL()
@@ -437,6 +494,119 @@ public class ExampleController : MonoBehaviour
         ButtonControl(correctAnswer, errorOne, errorTwo, $"{firstNumber} / {secondNumber} * {thirdNumber}");
     }
 
+    void MixedOperationsLevelEleventh()
+    {
+        thirdNumber = Math.randomGeneration(10, 100);
+        int intermediateResult1 = Math.Div(2, 100, 2, 10, out firstNumber, out secondNumber);
+        int intermediateResult2 = Math.randomGeneration(1, 10);
+        correctAnswer = (intermediateResult1 - intermediateResult2) * thirdNumber;
+        do
+        {
+            errorOne = correctAnswer + 10 + Math.randomGeneration(1, 3);
+            errorTwo = correctAnswer - 10 - Math.randomGeneration(1, 2);
+        } while (errorOne == correctAnswer || errorTwo == correctAnswer || errorTwo == errorOne);
+        ButtonControl(correctAnswer, errorOne, errorTwo, $"({firstNumber} / {secondNumber} - {intermediateResult2}) * {thirdNumber}");
+    }
+
+    void MixedOperationsLevelEleventhEX()
+    {
+        thirdNumber = 100;
+        int intermediateResult1 = Math.Div(2, 100, 2, 10, out firstNumber, out secondNumber);
+        int intermediateResult2 = Math.randomGeneration(1, 10);
+        correctAnswer = (intermediateResult1 - intermediateResult2) * thirdNumber;
+        do
+        {
+            errorOne = correctAnswer + Math.randomGeneration(1, 3) - 10;
+            errorTwo = correctAnswer - Math.randomGeneration(1, 2) + 10;
+        } while (errorOne == correctAnswer || errorTwo == correctAnswer || errorTwo == errorOne);
+        ButtonControl(correctAnswer, errorOne, errorTwo, $"({firstNumber} / {secondNumber} - {intermediateResult2}) * {thirdNumber}");
+    }
+
+    void MixedOperationsLevelTwelfth()
+    {
+        thirdNumber = Math.randomGeneration(1, 10);
+        int intermediateResult1 = Math.Div(2, 20, 2, 5, out firstNumber, out secondNumber);
+        int intermediateResult2 = Math.randomGeneration(1, 10);
+        correctAnswer = (intermediateResult1 - intermediateResult2) * thirdNumber;
+        do
+        {
+            errorOne = correctAnswer + 10 + Math.randomGeneration(1, 3);
+            errorTwo = correctAnswer - 10 - Math.randomGeneration(1, 2);
+        } while (errorOne == correctAnswer || errorTwo == correctAnswer || errorTwo == errorOne);
+        ButtonControl(correctAnswer, errorOne, errorTwo, $"({firstNumber} / {secondNumber} - {intermediateResult2}) * {thirdNumber}");
+    }
+
+    void MixedOperationsLevelTwelfthEX()
+    {
+        thirdNumber = 100;
+        int intermediateResult1 = Math.Div(10, 100, 10, 20, out firstNumber, out secondNumber);
+        int intermediateResult2 = Math.randomGeneration(1, 10);
+        correctAnswer = (intermediateResult1 - intermediateResult2) * thirdNumber;
+        do
+        {
+            errorOne = correctAnswer + Math.randomGeneration(1, 3) - 10;
+            errorTwo = correctAnswer - Math.randomGeneration(1, 2) + 10;
+        } while (errorOne == correctAnswer || errorTwo == correctAnswer || errorTwo == errorOne);
+        ButtonControl(correctAnswer, errorOne, errorTwo, $"({firstNumber} / {secondNumber} - {intermediateResult2}) * {thirdNumber}");
+    }
+
+    void MulSubLevelThirteenth()
+    {
+        thirdNumber = Math.randomGeneration(10, 100);
+        int intermediateResult1 = Math.Mul(2, 10);
+        int intermediateResult2 = Math.Div(2, 100, 2, 10, out firstNumber, out secondNumber);
+        correctAnswer = intermediateResult1 - (intermediateResult2 + thirdNumber);
+        do
+        {
+            errorOne = correctAnswer + Math.randomGeneration(1, 20);
+            errorTwo = correctAnswer - Math.randomGeneration(1, 20);
+        } while (errorOne == correctAnswer || errorTwo == correctAnswer || errorTwo == errorOne);
+        ButtonControl(correctAnswer, errorOne, errorTwo, $"{intermediateResult1} - ({firstNumber} / {secondNumber} + {thirdNumber})");
+    }
+    void MulSubLevelThirteenthEX()
+    {
+        thirdNumber = Math.randomGeneration(10, 100);
+        int intermediateResult1 = Math.Mul(2, 10);
+        int intermediateResult2 = Math.Div(2, 100, 2, 10, out firstNumber, out secondNumber);
+        correctAnswer = intermediateResult1 - (intermediateResult2 + thirdNumber);
+        do
+        {
+            errorOne = correctAnswer + Math.randomGeneration(1, 20);
+            errorTwo = correctAnswer - Math.randomGeneration(1, 20);
+        } while (errorOne == correctAnswer || errorTwo == correctAnswer || errorTwo == errorOne);
+        ButtonControl(correctAnswer, errorOne, errorTwo, $"{intermediateResult1} - ({firstNumber} / {secondNumber} + {thirdNumber})");
+    }
+    void FinalLevelWithExponents()
+    {
+        thirdNumber = Math.randomGeneration(1, 10);
+        int baseNumber = Math.randomGeneration(2, 5);
+        int exponent = Math.randomGeneration(2, 4);
+        int intermediateResult1 = (int)Math.Pow(baseNumber, exponent);
+        int intermediateResult2 = Math.Div(2, 100, 2, 10, out firstNumber, out secondNumber);
+        correctAnswer = intermediateResult1 + intermediateResult2 + thirdNumber;
+        do
+        {
+            errorOne = correctAnswer + Math.randomGeneration(1, 20);
+            errorTwo = correctAnswer - Math.randomGeneration(1, 20);
+        } while (errorOne == correctAnswer || errorTwo == correctAnswer || errorTwo == errorOne);
+        ButtonControl(correctAnswer, errorOne, errorTwo, $"{baseNumber}^{exponent} + {firstNumber} / {secondNumber} + {thirdNumber}");
+    }
+    void FinalLevelWithExponentsEX()
+    {
+        thirdNumber = Math.randomGeneration(10, 100);
+        int baseNumber = Math.randomGeneration(5, 12);
+        int exponent = Math.randomGeneration(2, 3);
+        int intermediateResult1 = (int)Math.Pow(baseNumber, exponent);
+        int intermediateResult2 = Math.Div(2, 100, 2, 10, out firstNumber, out secondNumber);
+        correctAnswer = intermediateResult1 + intermediateResult2 + thirdNumber;
+        do
+        {
+            errorOne = correctAnswer + Math.randomGeneration(1, 20);
+            errorTwo = correctAnswer - Math.randomGeneration(1, 20);
+        } while (errorOne == correctAnswer || errorTwo == correctAnswer || errorTwo == errorOne);
+        ButtonControl(correctAnswer, errorOne, errorTwo, $"{baseNumber}^{exponent} + {firstNumber} / {secondNumber} + {thirdNumber}");
+    }
+
 
     void ButtonControl(int correctAnswer, int errorOne, int errorTwo, string text)
     {
@@ -605,11 +775,12 @@ public class ExampleController : MonoBehaviour
         canvas.gameObject.SetActive(false);
         Time.timeScale = 1;
         isExample = false;
-        StopCoroutine(Stopwatch());
         if (controller.resolvedExamples == totalExamples - 1)
         {
-            snake.GetComponent<SnakeController>().Restart();
+            snake.Restart();
         }
         LogReferences("After WrongAnswer Logic");
+        canvas.gameObject.SetActive(false);
+        StopCoroutine(Stopwatch());
     }
 }

@@ -95,4 +95,12 @@ public class MathOperations : MonoBehaviour
         secondNumber = b;
         return firstNumber / secondNumber;
     }
+
+    public int Pow(int firstNumber, int secondNumber)
+    {
+        int a = firstNumber;
+        for (int i = 0; i < secondNumber - 1; i++)
+            a = a * firstNumber;
+        return a;
+    }
 }

@@ -501,7 +501,7 @@ MonoBehaviour:
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
   m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
+  m_InputActionsPerSecond: 12
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
 --- !u!114 &957418710
@@ -1572,7 +1572,7 @@ PrefabInstance:
       objectReference: {fileID: 2005617380}
     - target: {fileID: 7678113629748225930, guid: 6c5490b45aa08e0479208eadf49f3067, type: 3}
       propertyPath: totalExamples
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7678113629748225930, guid: 6c5490b45aa08e0479208eadf49f3067, type: 3}
       propertyPath: victoryCanvas
@@ -1617,7 +1617,7 @@ PrefabInstance:
       objectReference: {fileID: 406192451}
     - target: {fileID: 3042282024876006884, guid: 0c0e458377dffd94393f7795274c6482, type: 3}
       propertyPath: totalExamples
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4532670348872572071, guid: 0c0e458377dffd94393f7795274c6482, type: 3}
       propertyPath: m_LocalPosition.x

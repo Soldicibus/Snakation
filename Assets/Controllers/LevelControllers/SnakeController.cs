@@ -28,6 +28,9 @@ public class SnakeController : MonoBehaviour
     public Scene scene;
     public int totalExamples;
     private int randomval;
+    public AudioClip foodEatenSound;
+    public AudioClip vaseDestroyedSound, snakeCrashSound;
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -192,7 +195,9 @@ public class SnakeController : MonoBehaviour
             vase = Instantiate(vasePref, new Vector3(x, y, 5f), Quaternion.identity);
             IsCreatedVase = true;
         }
-        if (IsSpedUp) transform.Translate(move * 1.5f);
+        if (IsSpedUp && scene.name.Equals("LevelFifteen")) transform.Translate(move * 2f);
+        else if (IsSpedUp) transform.Translate(move * 1.5f);
+        else if (scene.name.Equals("LevelFifteen")) transform.Translate(move * 1.25f);
         else transform.Translate(move);
         if (isFoodEaten)
         {
@@ -251,24 +256,27 @@ public class SnakeController : MonoBehaviour
 
         IsSpedUp = false;
     }
-
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Apple" || col.gameObject.tag == "Pear")
         {
+            if (audioSource == null) { audioSource = gameObject.AddComponent<AudioSource>(); audioSource.playOnAwake = false; }
             controller.score += 100;
             Destroy(col.gameObject);
             isFoodEaten = true;
             SpawnFood();
+            audioSource.PlayOneShot(foodEatenSound);
         }
 
         if (col.gameObject.tag == "Vase")
         {
+            if (audioSource == null) { audioSource = gameObject.AddComponent<AudioSource>(); audioSource.playOnAwake = false; }
             controller.score += 10;
             Destroy(col.gameObject);
             IsCreatedVase = false;
             IsSpedUp = true;
             StartCoroutine(SpeedUp());
+            audioSource.PlayOneShot(vaseDestroyedSound);
         }
 
         if (col.gameObject.tag == "Example")
@@ -338,22 +346,27 @@ public class SnakeController : MonoBehaviour
             if (scene.name.Equals("LevelEleven"))
             {
                 example.canvas.gameObject.SetActive(true);
-                //example.TenthLevel();
+                example.EleventhLevel();
             }
             if (scene.name.Equals("LevelTwelve"))
             {
                 example.canvas.gameObject.SetActive(true);
-                //example.TenthLevel();
+                example.TwelfthLevel();
             }
             if (scene.name.Equals("LevelThirteen"))
             {
                 example.canvas.gameObject.SetActive(true);
-                //example.TenthLevel();
+                example.ThirteenthLevel();
             }
-            else // Levels 14 and 15
+            if (scene.name.Equals("LevelFourteen"))
             {
                 example.canvas.gameObject.SetActive(true);
-                //example.SpecialLevels();
+                example.SpecialLevel14();
+            }
+            if (scene.name.Equals("LevelFifteen"))
+            {
+                example.canvas.gameObject.SetActive(true);
+                example.SpecialLevel15();
             }
         }
 
@@ -366,6 +379,7 @@ public class SnakeController : MonoBehaviour
 
         if (col.gameObject.CompareTag("Tail"))
         {
+            audioSource.PlayOneShot(snakeCrashSound);
             Restart();
         }
 
@@ -458,7 +472,7 @@ public class SnakeController : MonoBehaviour
         deathCanvas.SetActive(true);
         finalScore.text = $"Your result: {controller.score}";
         finalExamplesScore.text = $"Correctly answered: {controller.resolvedExamples}";
-        if (controller.resolvedExamples == 9)
+        if (controller.resolvedExamples == totalExamples - 1)
             losingReason.text = "You didn't answear the final example correctly";
         else
             losingReason.text = "You ate yourself";
@@ -468,12 +482,12 @@ public class SnakeController : MonoBehaviour
     {
         int currentLevel = SceneManager.GetActiveScene().buildIndex;
 
-        if (currentLevel >= PlayerPrefs.GetInt("unlockedLVLs") && currentLevel != 10)
+        if (currentLevel >= PlayerPrefs.GetInt("unlockedLVLs") && currentLevel != 15)
         {
             PlayerPrefs.SetInt("unlockedLVLs", currentLevel + 1);
         }
 
-        Debug.Log("Level " + PlayerPrefs.GetInt("unlockedLVLs") + " unlocked");
+        Debug.Log("Level " + currentLevel++ + " unlocked");
         victoryCanvas.SetActive(true);
         resultCanvas.SetActive(true);
         scoreCanvas.SetActive(false);
